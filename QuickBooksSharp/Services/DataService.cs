@@ -44,7 +44,8 @@ namespace QuickBooksSharp
         public async Task<IntuitResponse<QueryResponse<TEntity>>> QueryAsync<TEntity>(string query) where TEntity : IntuitEntity
         {
             var res = await _client.GetAsync<IntuitResponse>(new Url(_serviceUrl).AppendPathSegment("query")
-                                                                                 .SetQueryParam("query", query));
+                                                                                 .SetQueryParam("query", query)
+                                                                                 .SetQueryParam("include", "enhancedAllCustomFields"));
             var queryRes = res.QueryResponse;
             return new IntuitResponse<QueryResponse<TEntity>>
             {
@@ -68,7 +69,8 @@ namespace QuickBooksSharp
         public async Task<IntuitResponse<TEntity>> GetAsync<TEntity>(string id) where TEntity : IntuitEntity
         {
             var res = await _client.GetAsync<IntuitResponse>(new Url(_serviceUrl).AppendPathSegment(GetEntityName(typeof(TEntity)))
-                                                                                 .AppendPathSegment(id));
+                                                                                 .AppendPathSegment(id)
+                                                                                 .SetQueryParam("include", "enhancedAllCustomFields"));
             return new IntuitResponse<TEntity>
             {
                 RequestId = res.requestId,
@@ -83,7 +85,8 @@ namespace QuickBooksSharp
         public async Task<IntuitResponse<IntuitEntity>> GetAsync(string id, Type entityType)
         {
             var res = await _client.GetAsync<IntuitResponse>(new Url(_serviceUrl).AppendPathSegment(GetEntityName(entityType))
-                                                                                 .AppendPathSegment(id));
+                                                                                 .AppendPathSegment(id)
+                                                                                 .SetQueryParam("include", "enhancedAllCustomFields"));
             return new IntuitResponse<IntuitEntity>
             {
                 RequestId = res.requestId,
